@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One to Many Relationships</title>
+
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my_css/my_style.css' %}">
+</head>
+<body>
+    <div class="tables">
+        <table class="table caption-top">
+            <div class="table-title">
+                Books Table
+            </div>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Updated at</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in all_books %}
+            <tr> 
+                <th scope="row">{{ i.id }}</th>
+                <td>{{ i.title }}</td>
+                <td>{{ i.author.name }}</td>
+                <td>{{ i.created_at }}</td>
+                <td>{{ i.updated_at }}</td>
+                <td><a href="/deleteBook/{{ i.id }}">delete</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table caption-top">
+            <div class="table-title">
+                Authors Table (<a href="/treeTables">Authors Tree</a>)
+            </div>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Updated at</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in all_authors %}
+            <tr> 
+                <th scope="row">{{ i.id }}</th>
+                <td>{{ i.name }}</td>
+                <td>{{ i.created_at }}</td>
+                <td>{{ i.updated_at }}</td>
+                <td><a href="/deleteAuthor/{{ i.id }}">delete</a></td>
+            </tr>
+            {% endfor %}
+            <tr> 
+                <td id="warning-message" colspan="5">WARNING: If you delete an author, you will end up deleting all related books</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="forms">
+        <form action="/addBook" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Book Title</label>
+              <input name="book_title" type="text" class="form-control" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <select name="author_id" class="form-select" aria-label="Default select example" required>
+                    <option selected>Select Author</option>
+                    {% for i in all_authors %}
+                    <option value={{ i.id }}>{{ i.name }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            <button type="submit" class="btn btn-primary">Add Book</button>
+          </form>
+          <form action="/addAuthor" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Author Name</label>
+              <input name="author_name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Author</button>
+          </form>
+    </div>
+        
+    <script src="{% static 'js/bootstrap.js' %}" ></script>
+</body>
+</html>

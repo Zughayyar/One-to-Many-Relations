@@ -1,0 +1,40 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.table-title {
+    font-size: 3vh;
+    display: flex;
+    justify-content: center;
+}
+
+.tables {
+    margin: auto;
+    margin-top: 6vh ;
+    width: 90vh;
+}
+
+.tables div {
+    background-color: lightblue;
+}
+
+.forms {
+    margin: auto;
+    margin-top: 8vh ;
+    width: 60vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.forms form {
+    width: 25vh;
+}
+
+#warning-message { 
+    color: red;
+    font-size: smaller;
+}
